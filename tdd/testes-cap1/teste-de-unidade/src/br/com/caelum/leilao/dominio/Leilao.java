@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.omg.CORBA.PRIVATE_MEMBER;
+
 public class Leilao {
 
 	private String descricao;
@@ -15,6 +17,9 @@ public class Leilao {
 	}
 	
 	public void propoe(Lance lance) {
+		private int ultimoLance = lances.size()-1;
+		
+		if(!lances.get(ultimoLance).getUsuario().equals(lance.getUsuario()))
 		lances.add(lance);
 	}
 

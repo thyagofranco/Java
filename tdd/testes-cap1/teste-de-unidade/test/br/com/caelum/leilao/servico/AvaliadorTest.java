@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import br.com.caelum.leilao.dominio.Lance;
 import br.com.caelum.leilao.dominio.Leilao;
@@ -86,6 +86,30 @@ public class AvaliadorTest {
 			
 		}
 		
+		
+		@Test
+		public void deveEntenderUmLeilaoComLancesAleatorios() {
+			Usuario joao = new Usuario("João");
+			Usuario maria = new Usuario("Maria");
+			
+			Leilao leilao = new Leilao("Playstation 3 Novo");
+			
+			leilao.propoe(new Lance(joao, 200.00));
+			leilao.propoe(new Lance(maria, 450.00));
+			leilao.propoe(new Lance(joao, 120.00));
+			leilao.propoe(new Lance(maria, 700.00));
+			leilao.propoe(new Lance(joao, 630.00));
+			leilao.propoe(new Lance(maria, 230.00));
+			
+			Avaliador leiloeiro = new Avaliador();
+			leiloeiro.avalia(leilao);
+			
+			
+			assertEquals(700.00, leiloeiro.getMaiorLance(), 0.00001);
+			assertEquals(120.0, leiloeiro.getMenorLance(), 0.00001);
+						
+		}
+	
 		@Test
 		public void deveEncontrarOsTresmaioresLances() {
 			Usuario joao = new Usuario("João");
@@ -110,5 +134,44 @@ public class AvaliadorTest {
 			
 			
 		}
-	
+		
+		@Test
+		public void deveEncontrarOsMaioresLancesEmUmLeilaoDeDoisLances() {
+			Usuario joao = new Usuario("João");
+			Usuario maria = new Usuario("Maria");
+			
+			Leilao leilao = new Leilao("Playstation 3 Novo");
+			
+			leilao.propoe(new Lance(joao, 100.00));
+			leilao.propoe(new Lance(maria, 200.00));
+						
+			Avaliador leiloeiro = new Avaliador();
+			leiloeiro.avalia(leilao);
+			
+			List<Lance> maiores = leiloeiro.getTresMaioresLances();
+			
+			assertEquals(2, maiores.size());
+			assertEquals(200, maiores.get(0).getValor(), 0.00001);
+			assertEquals(100, maiores.get(1).getValor(), 0.00001);
+						
+			
+		}
+		
+		@Test
+		public void deveEncontrarZeroLancesEmUmLeilaoSemLances() {
+						
+			Leilao leilao = new Leilao("Playstation 3 Novo");
+							
+			Avaliador leiloeiro = new Avaliador();
+			leiloeiro.avalia(leilao);
+			
+			List<Lance> maiores = leiloeiro.getTresMaioresLances();
+			
+			assertEquals(0, maiores.size());
+									
+			
+		}
+		
+		
+		
 }

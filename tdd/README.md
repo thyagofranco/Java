@@ -42,3 +42,9 @@ A qualidade do seu código de testes, deve ser tão boa quando o seu código de 
 Muitas vezes ao implementarmos novas funcionalidades acabamos desenvolvendo de forma correta a nova funcionalidade, contudo ela quebra uma funcionalidade anterior, por isso testes de regressão são importante, rodar a bateria complete de destes para verificar não se somente as novas funcionalidades passam, mas também se as novas funcionalidades não quebram as antigas. 
 
 Quanto mais testes, mais segurança em modificar o código. 
+
+Desenvolvedores que estão aprendendo a testar geralmente sentem dificuldades no momento de levantar e escrever cenários para o teste.
+
+Lembre-se que um teste automatizado é muito parecido com um teste manual. Do mesmo jeito que você pensa no cenário de um teste manual (por exemplo, visitar a página de cadastro, preencher o campo CPF com "123", clicar no botão, e etc), você faz no automatizado.
+
+Foque-se na classe que você está testando. Pense sobre o que você espera dela. Como ela deve funcionar? Se você passar tais parâmetros para ela, como ela deve reagir?

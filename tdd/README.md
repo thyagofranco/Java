@@ -48,3 +48,12 @@ Desenvolvedores que estão aprendendo a testar geralmente sentem dificuldades no
 Lembre-se que um teste automatizado é muito parecido com um teste manual. Do mesmo jeito que você pensa no cenário de um teste manual (por exemplo, visitar a página de cadastro, preencher o campo CPF com "123", clicar no botão, e etc), você faz no automatizado.
 
 Foque-se na classe que você está testando. Pense sobre o que você espera dela. Como ela deve funcionar? Se você passar tais parâmetros para ela, como ela deve reagir?
+
+TDD oferece excelentes momentos para refatorar o código, pois a bateria de testes da confiança para o desenvolvedor realizar as alterações, garantindo o comportamento. 
+
+Ciclo TDD 
+
+Robert C. Martin (Uncle Bob)
+You must write a failing test before you write any production code.
+You must not write more of a test than is sufficient to fail, or fail to compile.
+You must not write more production code than is sufficient to make the currently failing test pass.

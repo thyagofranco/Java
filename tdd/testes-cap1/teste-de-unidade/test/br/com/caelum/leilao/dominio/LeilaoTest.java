@@ -2,20 +2,40 @@ package br.com.caelum.leilao.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import br.com.caelum.leilao.builder.CriadorDeLeilao;
 
 public class LeilaoTest {
 	
-	private final Usuario JOAO = new Usuario("João");
-	private final Usuario MARIA = new Usuario("Maria");
+	private Usuario joao;
+	private Usuario maria;
 
+	@BeforeEach
+	public void setup() {
+				
+		this.joao = new Usuario("João");
+		this.maria = new Usuario("Maria");
+		
+	}
+		
+	
+	@Test
+	public void deveReceberZeroLances() {
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento").constroi();
+		
+		assertEquals(0, leilao.getLances().size());
+	}
+	
+	
 	@Test
 	public void deveReceberUmLance() {
 		
-		Leilao leilao = new Leilao("PS5 lançamento");
-		assertEquals(0, leilao.getLances().size());
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+				.lance(joao, 100.0)
+				.constroi();
 		
-		leilao.propoe(new Lance(JOAO, 100));
 		
 		assertEquals(1, leilao.getLances().size());
 		assertEquals(100.00, leilao.getLances().get(0).getValor(), 0.00001);
@@ -24,13 +44,12 @@ public class LeilaoTest {
 	@Test
 	public void deveReceberMultiplosLances() {
 		
-		Leilao leilao = new Leilao("PS5 lançamento");
-		assertEquals(0, leilao.getLances().size());
-		
-		leilao.propoe(new Lance(JOAO, 100));
-		leilao.propoe(new Lance(MARIA, 2000));
-		leilao.propoe(new Lance(JOAO, 3000));
-		
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+				.lance(joao, 100.0)
+				.lance(maria, 2000.0)
+				.lance(joao, 3000.0)
+				.constroi();
+									
 		assertEquals(3, leilao.getLances().size());
 		assertEquals(100.00, leilao.getLances().get(0).getValor(), 0.00001);
 		assertEquals(2000.00, leilao.getLances().get(1).getValor(), 0.00001);
@@ -40,9 +59,10 @@ public class LeilaoTest {
 	@Test 
 	public void naoDeveAceitarDoisLanesSeguidosDoMesmoUsuario() {
 		
-		Leilao leilao = new Leilao("PS5 lançamento");
-		leilao.propoe(new Lance(JOAO, 1000));
-		leilao.propoe(new Lance(JOAO, 2000));
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+							.lance(joao, 1000.0)
+							.lance(joao, 2000.0)
+							.constroi();
 		
 		assertEquals(1, leilao.getLances().size());
 		assertEquals(1000.0, leilao.getLances().get(0).getValor(), 0.00001);
@@ -51,25 +71,21 @@ public class LeilaoTest {
 	@Test 
 	public void naoDeveAceitarMaisDoQue5LancesDeUmMesmoUsuario() {
 		
-		Leilao leilao = new Leilao("PS5 lançamento");
-		leilao.propoe(new Lance(JOAO, 1000));
-		leilao.propoe(new Lance(MARIA, 2000));
-		
-		leilao.propoe(new Lance(JOAO, 3000));
-		leilao.propoe(new Lance(MARIA, 4000));
-		
-		leilao.propoe(new Lance(JOAO, 5000));
-		leilao.propoe(new Lance(MARIA, 6000));
-		
-		leilao.propoe(new Lance(JOAO, 7000));
-		leilao.propoe(new Lance(MARIA, 8000));
-		
-		leilao.propoe(new Lance(JOAO, 9000));
-		leilao.propoe(new Lance(MARIA, 10000));
-		
-		//devem ser ignorados
-		leilao.propoe(new Lance(JOAO, 11000));
-		leilao.propoe(new Lance(MARIA, 12000));
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+				.lance(joao, 1000.0)
+				.lance(maria, 2000.0)
+				.lance(joao, 3000.0)
+				.lance(maria, 4000.0)
+				.lance(joao, 5000.0)
+				.lance(maria, 6000.0)
+				.lance(joao, 7000.0)
+				.lance(maria, 8000.0)
+				.lance(joao, 9000.0)
+				.lance(maria, 10000.0)
+				//A partir daqui, os lances devem ser ignorados
+				.lance(joao, 11000.0)
+				.lance(maria, 12000.0)
+				.constroi();
 		
 		assertEquals(10, leilao.getLances().size());
 		assertEquals(10000.0, leilao.getLances().get(leilao.getLances().size() -1).getValor(), 0.00001);
@@ -78,11 +94,12 @@ public class LeilaoTest {
 	@Test
 	public void deveDobrarUltimoLanceDoUsuarioQueJaDeuUmLance() {
 	
-		Leilao leilao = new Leilao("PS5 lançamento");
-		leilao.propoe(new Lance(JOAO, 1000));
-		leilao.propoe(new Lance(MARIA, 1500));
-		
-		leilao.dobraLance(JOAO);
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+							.lance(joao, 1000.0)
+							.lance(maria, 1500.0)
+							.constroi();
+				
+		leilao.dobraLance(joao);
 		
 		assertEquals(3, leilao.getLances().size());
 		assertEquals(2000.0, leilao.getLances().get(leilao.getLances().size() -1).getValor(), 0.00001);
@@ -91,14 +108,15 @@ public class LeilaoTest {
 	@Test
 	public void deveIgnorarDobraDeLanceDoUsuarioQueNaoDeuLance() {
 	
-		Leilao leilao = new Leilao("PS5 lançamento");
-		leilao.propoe(new Lance(MARIA, 2000));
-		
-		leilao.dobraLance(JOAO);
+		Leilao leilao = new CriadorDeLeilao().para("PS5 lançamento")
+				.lance(maria, 2000.0)
+				.constroi();
+				
+		leilao.dobraLance(joao);
 		
 		assertEquals(1, leilao.getLances().size());
 		assertEquals(2000.0, leilao.getLances().get(leilao.getLances().size() -1).getValor(), 0.00001);
-		assertEquals(MARIA, leilao.getLances().get(leilao.getLances().size() -1).getUsuario());
+		assertEquals(maria, leilao.getLances().get(leilao.getLances().size() -1).getUsuario());
 	}
 	
 }

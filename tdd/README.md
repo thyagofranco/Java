@@ -51,9 +51,22 @@ Foque-se na classe que você está testando. Pense sobre o que você espera dela
 
 TDD oferece excelentes momentos para refatorar o código, pois a bateria de testes da confiança para o desenvolvedor realizar as alterações, garantindo o comportamento. 
 
-Ciclo TDD 
+Ciclo TDD - Test Driven Development 
 
 Robert C. Martin (Uncle Bob)
 You must write a failing test before you write any production code.
 You must not write more of a test than is sufficient to fail, or fail to compile.
 You must not write more production code than is sufficient to make the currently failing test pass.
+
+O termo dado para a ideia de dar sempre passos pequenos e escrever código simples o tempo todo é conhecido por baby steps.
+
+TDD faz muito sentido ao implementar novas funcionalidades, ao corrigir bugs, ao trabalhar em códigos complexos, etc.
+
+Mas às vezes não precisamos seguir o fluxo ideal da prática de TDD. Por exemplo, às vezes queremos só escrever um conjunto de testes que faltaram para determinada funcionalidade. Nesse momento, não faríamos TDD, mas sim escreveríamos testes.
+
+Em códigos extremamente simples, talvez a prática de TDD não seja necessária. Mas lembre-se: cuidado para não achar que "tudo é simples", e nunca praticar TDD.
+
+Devemos sempre nos preocupar com a repetição em nossas classes de teste. Um bom patter a ser utilizardo é o Builder
+onde podemos criar Test Data Builders para criar nossos cenários de teste, e se caso algo mude, podemos apenas alterar essa classe utilitária, ao invés de recriar manualmente todos os casos teste por teste. Isso diminui o acoplamento.
+
+Codigo de teste simples = mais facil de evoluir.

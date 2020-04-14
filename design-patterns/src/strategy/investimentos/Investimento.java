@@ -2,7 +2,9 @@ package strategy.investimentos;
 
 import java.math.BigDecimal;
 
+import domain.Conta;
+
 public interface Investimento {
 	
-	public BigDecimal investir(Conta conta);
+	BigDecimal investir(Conta conta);
 }

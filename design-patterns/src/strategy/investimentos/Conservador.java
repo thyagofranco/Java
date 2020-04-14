@@ -2,6 +2,8 @@ package strategy.investimentos;
 
 import java.math.BigDecimal;
 
+import domain.Conta;
+
 public class Conservador implements Investimento{
 
 	@Override

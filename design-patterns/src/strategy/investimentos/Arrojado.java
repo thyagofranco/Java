@@ -3,6 +3,8 @@ package strategy.investimentos;
 import java.math.BigDecimal;
 import java.util.Random;
 
+import domain.Conta;
+
 public class Arrojado implements Investimento{
 
 	@Override
